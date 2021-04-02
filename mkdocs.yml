@@ -46,6 +46,8 @@ nav:
     - Report Issues: https://github.com/crose26/rosegeomap/issues
     - API Reference:
           - rosegeomap module: rosegeomap.md
+          - common module: common.md
+          - utils module: utils.md
     - Notebooks:
         - Shapefile Demo: notebooks/Shapefile_Demo.ipynb
         - Folium_Intro: notebooks/folium_intro.ipynb
