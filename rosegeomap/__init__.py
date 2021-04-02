@@ -2,7 +2,7 @@
 
 __author__ = """Caleb Rose"""
 __email__ = 'crose26@vols.utk.edu'
-__version__ = '0.0.2'
+__version__ = '0.0.3'
 
 from .rosegeomap import *
 from .utils import *
