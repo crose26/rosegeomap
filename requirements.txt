@@ -1,3 +1,4 @@
-folium
-ipyleaflet
-pyshp
+ earthengine-api
+ folium 
+ ipyleaflet
+ pyshp
