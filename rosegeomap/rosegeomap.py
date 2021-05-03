@@ -1,7 +1,6 @@
 """Main module."""
 
 import os
-import ipyleaflet
 from ipyleaflet import Map, FullScreenControl, LayersControl, DrawControl, MeasureControl, ScaleControl, TileLayer
 from .utils import random_string
 from .toolbar import main_toolbar
@@ -101,7 +100,7 @@ class Map(ipyleaflet.Map):
         geo_json = ipyleaflet.GeoJSON(data=data, style=style, name=layer_name)
         self.add_layer(geo_json)
     
-    
+
     def add_shapefile(self, in_shp, style=None, layer_name="Untitled"):
         """Adds a shapefile layer to the map.
         Args:
