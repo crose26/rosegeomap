@@ -104,12 +104,11 @@ class Map(ipyleaflet.Map):
     def add_csv(self, csvfile, style=None, layer_name="Untitled"):
         import pandas as pd
         import ipywidgets
-        import rosegeomap
         from ipyleaflet import Marker
         
         GasLeaks = pd.read_csv(csvfile)
         GasLeaks = GasLeaks[['Date', 'Latitude', 'Longitude', 'Pipe Material']]
-        GasLeaks_map = rosegeomap.Map(zoom=1)
+        GasLeaks_map = ipyleaflet.Map(zoom=1)
         display(GasLeaks_map)
         
         selection_slider = ipywidgets.SelectionSlider(options=list(GasLeaks['Date']),
