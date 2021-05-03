@@ -84,8 +84,6 @@ def main_toolbar(m):
                 m.add_shapefile(fc.selected, layer_name="Shapefile")
             elif fc.selected.endswith(".geojson"):
                 m.add_geojson(fc.selected, layer_name="GeoJSON")
-            elif fc.selected.endswith(".csv"):
-                add_csv(fc.selected)
         elif change["new"] == "Reset":
             fc.reset()
         elif change["new"] == "Close":
