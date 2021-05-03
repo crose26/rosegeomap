@@ -7,4 +7,3 @@
  pyshp
  whitebox>=1.4.1
  whiteboxgui
- pandas

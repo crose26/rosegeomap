@@ -1,32 +1,36 @@
-"""Main module."""
-
+"""Main module for the geodemo package."""
 import os
-from ipyleaflet import Map, FullScreenControl, LayersControl, DrawControl, MeasureControl, ScaleControl, TileLayer
+import ee
+import ipyleaflet
+from ipyleaflet import FullScreenControl, LayersControl, DrawControl, MeasureControl, ScaleControl, TileLayer
 from .utils import random_string
+from .common import ee_initialize, tool_template
 from .toolbar import main_toolbar
-from IPython.core.display import display
+
 class Map(ipyleaflet.Map):
-    """This map class inherits the ipyleaflet map class.
+    """This Map class inherits the ipyleaflet Map class.
 
     Args:
-        ipyleaflet (ipyleaflet.Map): An ipleaflet Map
+        ipyleaflet (ipyleaflet.Map): An ipyleaflet map.
     """    
-        
 
     def __init__(self, **kwargs):
 
         if "center" not in kwargs:
-            kwargs["center"] = [40,-100]
+            kwargs["center"] = [40, -100]
 
         if "zoom" not in kwargs:
             kwargs["zoom"] = 4
-        
+
         if "scroll_wheel_zoom" not in kwargs:
             kwargs["scroll_wheel_zoom"] = True
 
         super().__init__(**kwargs)
 
-        self.layout.height= "600px"
+        if "height" not in kwargs:
+            self.layout.height = "600px"
+        else:
+            self.layout.height = kwargs["height"]
 
         self.add_control(FullScreenControl())
         self.add_control(LayersControl(position="topright"))
@@ -40,28 +44,33 @@ class Map(ipyleaflet.Map):
             layer = TileLayer(
                 url="https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}",
                 attribution="Google",
-                name="Google Maps")
+                name="Google Maps",
+            )
             self.add_layer(layer)
-        else: 
-            if kwargs ["google_map"] == "ROADMAP":
+        else:
+            if kwargs["google_map"] == "ROADMAP":
                 layer = TileLayer(
                     url="https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}",
                     attribution="Google",
-                    name="Google Maps")
-                self.add_layer(layer)   
-            elif kwargs ["google_map"] == "HYBRID":
+                    name="Google Maps",
+                )
+                self.add_layer(layer)
+            elif kwargs["google_map"] == "HYBRID":
                 layer = TileLayer(
                     url="https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}",
                     attribution="Google",
-                    name="Google Satellite")
+                    name="Google Satellite"
+                )
                 self.add_layer(layer)
 
     def add_geojson(self, in_geojson, style=None, layer_name="Untitled"):
-             
         """Adds a GeoJSON file to the map.
-        Args: in_geojson (str): The file path to the input GeoJSON.
+
+        Args:
+            in_geojson (str): The file path to the input GeoJSON.
             style (dict, optional): The style for the GeoJSON layer. Defaults to None.
             layer_name (str, optional): The layer name for the GeoJSON layer. Defaults to "Untitled".
+
         Raises:
             FileNotFoundError: If the provided file path does not exist.
             TypeError: If the input geojson is not a str or dict.
@@ -98,11 +107,11 @@ class Map(ipyleaflet.Map):
             }
 
         geo_json = ipyleaflet.GeoJSON(data=data, style=style, name=layer_name)
-        self.add_layer(geo_json)
-    
+        self.add_layer(geo_json) 
 
     def add_shapefile(self, in_shp, style=None, layer_name="Untitled"):
         """Adds a shapefile layer to the map.
+
         Args:
             in_shp (str): The file path to the input shapefile.
             style (dict, optional): The style dictionary. Defaults to None.
@@ -111,30 +120,34 @@ class Map(ipyleaflet.Map):
         geojson = shp_to_geojson(in_shp)
         self.add_geojson(geojson, style=style, layer_name=layer_name)
 
-        def add_ee_layer(
-            self, ee_object, vis_params={}, name=None, shown=True, opacity=1.0
-        ):
-            """Adds a given EE object to the map as a layer.
-            Args:
-                ee_object (Collection|Feature|Image|MapId): The object to add to the map.
-                vis_params (dict, optional): The visualization parameters. Defaults to {}.
-                name (str, optional): The name of the layer. Defaults to 'Layer N'.
-                shown (bool, optional): A flag indicating whether the layer should be on by default. Defaults to True.
-                opacity (float, optional): The layer's opacity represented as a number between 0 and 1. Defaults to 1.
-            """
+    def add_ee_layer(
+        self, ee_object, vis_params={}, name=None, shown=True, opacity=1.0
+    ):
+        """Adds a given EE object to the map as a layer.
+        Args:
+            ee_object (Collection|Feature|Image|MapId): The object to add to the map.
+            vis_params (dict, optional): The visualization parameters. Defaults to {}.
+            name (str, optional): The name of the layer. Defaults to 'Layer N'.
+            shown (bool, optional): A flag indicating whether the layer should be on by default. Defaults to True.
+            opacity (float, optional): The layer's opacity represented as a number between 0 and 1. Defaults to 1.
+        """
 
-            ee_layer = ee_tile_layer(ee_object, vis_params, name, shown, opacity)
-            self.add_layer(ee_layer)
+        ee_layer = ee_tile_layer(ee_object, vis_params, name, shown, opacity)
+        self.add_layer(ee_layer)
 
-        addLayer = add_ee_layer
+    addLayer = add_ee_layer
+
 
 def shp_to_geojson(in_shp, out_geojson=None):
     """Converts a shapefile to GeoJSON.
+
     Args:
         in_shp (str): The file path to the input shapefile.
         out_geojson (str, optional): The file path to the output GeoJSON. Defaults to None.
+
     Raises:
         FileNotFoundError: If the input shapefile does not exist.
+
     Returns:
         dict: The dictionary of the GeoJSON.
     """
@@ -157,7 +170,7 @@ def shp_to_geojson(in_shp, out_geojson=None):
         if not os.path.exists(out_dir):
             os.makedirs(out_dir)
         with open(out_geojson, "w") as f:
-            f.write(json.dumps(geojson))  
+            f.write(json.dumps(geojson))    
 
 
 def ee_tile_layer(

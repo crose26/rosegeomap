@@ -4,6 +4,7 @@ from ipyleaflet import WidgetControl
 from ipyfilechooser import FileChooser
 from IPython.display import display
 
+
 def main_toolbar(m):
 
     padding = "0px 0px 0px 5px"  # upper, right, bottom, left
@@ -73,7 +74,7 @@ def main_toolbar(m):
 
     fc = FileChooser(data_dir)
     fc.use_dir_icons = True
-    fc.filter_pattern = ['*.shp', '*.geojson','*.csv']
+    fc.filter_pattern = ['*.shp', '*.geojson']
 
     filechooser_widget = widgets.VBox([fc, buttons])
 
