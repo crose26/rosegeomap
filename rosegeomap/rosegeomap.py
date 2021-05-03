@@ -100,36 +100,8 @@ class Map(ipyleaflet.Map):
 
         geo_json = ipyleaflet.GeoJSON(data=data, style=style, name=layer_name)
         self.add_layer(geo_json)
-
-    def add_csv(self, csvfile, style=None, layer_name="Untitled"):
-        import pandas as pd
-        import ipywidgets
-        from ipyleaflet import Marker
-        
-        GasLeaks = pd.read_csv(csvfile)
-        GasLeaks = GasLeaks[['Date', 'Latitude', 'Longitude', 'Pipe Material']]
-        GasLeaks_map = ipyleaflet.Map(zoom=1)
-        display(GasLeaks_map)
-        
-        selection_slider = ipywidgets.SelectionSlider(options=list(GasLeaks['Date']),
-            value='1/3/1967',
-            description='Slider',
-            disabled=False,
-            continuous_update=False,
-            orientation='horizontal',
-            readout=True)
-        
-        # plot locations using widget
-        def plot_GasLeaks(date):
-            g = GasLeaks.loc[GasLeaks['Date'] == date]
-            for (index, row) in g.iterrows():
-                marker = Marker(location=[row.loc['Latitude'], row.loc['Longitude']])
-                GasLeaks_map.add_layer(marker)
-            print(GasLeaks.loc[GasLeaks['Date'] == date])
-        
-        ipywidgets.interact(plot_GasLeaks, date=selection_slider)
     
-
+    
     def add_shapefile(self, in_shp, style=None, layer_name="Untitled"):
         """Adds a shapefile layer to the map.
         Args:
