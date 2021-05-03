@@ -3,7 +3,7 @@ import ipywidgets as widgets
 from ipyleaflet import WidgetControl
 from ipyfilechooser import FileChooser
 from IPython.display import display
-from rosegeomap import add_csv
+from .rosegeomap import add_csv
 
 def main_toolbar(m):
 
