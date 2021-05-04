@@ -1,6 +1,6 @@
 import os
 import ipywidgets as widgets
-from ipyleaflet import WidgetControl
+from ipyleaflet import WidgetControl, Marker
 from ipyfilechooser import FileChooser
 from IPython.display import display
 import pandas as pd
@@ -85,11 +85,11 @@ def main_toolbar(m):
                 m.add_shapefile(fc.selected, layer_name="Shapefile")
             elif fc.selected.endswith(".geojson"):
                 m.add_geojson(fc.selected, layer_name="GeoJSON")
-            elif fc.selected.endswith(".geojson"):
+            elif fc.selected.endswith(".csv"):
                 GasLeaks = pd.read_csv(fc.selected)
                 GasLeaks = GasLeaks[['Date', 'Latitude', 'Longitude', 'Pipe Material']]
                 
-                selection_slider = ipywidgets.SelectionSlider(options=list(GasLeaks['Date']),
+                selection_slider = widgets.SelectionSlider(options=list(GasLeaks['Date']),
                                                 value='1/3/1967',
                                                 description='Slider',
                                                 disabled=False,
@@ -102,7 +102,9 @@ def main_toolbar(m):
                         marker = Marker(location=[row.loc['Latitude'], row.loc['Longitude']])
                         m.add_layer(marker)
                     print(GasLeaks.loc[GasLeaks['Date'] == date])
-                ipywidgets.interact(plot_GasLeaks, date=selection_slider)
+                widgets.interact(plot_GasLeaks, date=selection_slider)
+
+                display(m)
         elif change["new"] == "Reset":
             fc.reset()
         elif change["new"] == "Close":
