@@ -3,7 +3,6 @@ import ipywidgets as widgets
 from ipyleaflet import WidgetControl
 from ipyfilechooser import FileChooser
 from IPython.display import display
-from .rosegeomap import add_csv
 import pandas as pd
 
 
