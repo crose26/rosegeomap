@@ -13,7 +13,7 @@
 
 ## Features
 
--   TODO
+-   Takes .csv file uploads and outputs a map that displays marker locations with an interactive time line.
 
 ## Credits
 

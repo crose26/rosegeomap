@@ -1,0 +1,3 @@
+# toolbar module
+
+::: rosegeomap.toolbar

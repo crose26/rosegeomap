@@ -53,3 +53,6 @@ nav:
         - Shapefile Demo: notebooks/Shapefile_Demo.ipynb
         - Folium_Intro: notebooks/folium_intro.ipynb
         - Lab6Demo: notebooks/Lab6demo_Intro.ipynb
+        - Gas Leaks Built In Functionality: notebooks/GasLeaksWorkingDemo.ipynb
+        - Gas Leaks Source Code: notebooks/Gas Leaks Function.ipynb
+        - Gas Leaks with No Time Slider: notebooks/GasLeaks-NoSlider.ipynb
