@@ -4,6 +4,7 @@ from ipyleaflet import WidgetControl
 from ipyfilechooser import FileChooser
 from IPython.display import display
 from .rosegeomap import add_csv
+import pandas as pd
 
 
 def main_toolbar(m):
@@ -86,7 +87,23 @@ def main_toolbar(m):
             elif fc.selected.endswith(".geojson"):
                 m.add_geojson(fc.selected, layer_name="GeoJSON")
             elif fc.selected.endswith(".geojson"):
-                add_csv(fc.selected, layer_name="GeoJSON")
+                GasLeaks = pd.read_csv(fc.selected)
+                GasLeaks = GasLeaks[['Date', 'Latitude', 'Longitude', 'Pipe Material']]
+                
+                selection_slider = ipywidgets.SelectionSlider(options=list(GasLeaks['Date']),
+                                                value='1/3/1967',
+                                                description='Slider',
+                                                disabled=False,
+                                                continuous_update=False,
+                                                orientation='horizontal',
+                                                readout=True)
+                def plot_GasLeaks(date):
+                    g = GasLeaks.loc[GasLeaks['Date'] == date]
+                    for (index, row) in g.iterrows():
+                        marker = Marker(location=[row.loc['Latitude'], row.loc['Longitude']])
+                        m.add_layer(marker)
+                    print(GasLeaks.loc[GasLeaks['Date'] == date])
+                ipywidgets.interact(plot_GasLeaks, date=selection_slider)
         elif change["new"] == "Reset":
             fc.reset()
         elif change["new"] == "Close":

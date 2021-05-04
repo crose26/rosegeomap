@@ -238,29 +238,4 @@ def ee_tile_layer(
     return tile_layer
 
 
-def add_csv(csvfile):
-    import pandas as pd
-    import ipywidgets
-
-    GasLeaks = pd.read_csv(csvfile)
-    GasLeaks = GasLeaks[['Date', 'Latitude', 'Longitude', 'Pipe Material']]
-    GasLeaks_map = rosegeomap.Map(zoom=1)
-    display(GasLeaks_map)
-        
-    selection_slider = ipywidgets.SelectionSlider(options=list(GasLeaks['Date']),
-                                            value='1/3/1967',
-                                            description='Slider',
-                                            disabled=False,
-                                            continuous_update=False,
-                                            orientation='horizontal',
-                                            readout=True)
-    # plot Leaks locations using widget
-    def plot_GasLeaks(date):
-        g = GasLeaks.loc[GasLeaks['Date'] == date]
-        for (index, row) in g.iterrows():
-            marker = Marker(location=[row.loc['Latitude'], row.loc['Longitude']])
-            GasLeaks_map.add_layer(marker)
-        print(GasLeaks.loc[GasLeaks['Date'] == date])
-        
-    ipywidgets.interact(plot_GasLeaks, date=selection_slider)
 
