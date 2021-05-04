@@ -3,6 +3,7 @@ import ipywidgets as widgets
 from ipyleaflet import WidgetControl
 from ipyfilechooser import FileChooser
 from IPython.display import display
+from .rosegeomap import add_csv
 
 
 def main_toolbar(m):
@@ -74,7 +75,7 @@ def main_toolbar(m):
 
     fc = FileChooser(data_dir)
     fc.use_dir_icons = True
-    fc.filter_pattern = ['*.shp', '*.geojson']
+    fc.filter_pattern = ['*.shp', '*.geojson', '*.csv']
 
     filechooser_widget = widgets.VBox([fc, buttons])
 
@@ -84,6 +85,8 @@ def main_toolbar(m):
                 m.add_shapefile(fc.selected, layer_name="Shapefile")
             elif fc.selected.endswith(".geojson"):
                 m.add_geojson(fc.selected, layer_name="GeoJSON")
+            elif fc.selected.endswith(".geojson"):
+                add_csv(fc.selected, layer_name="GeoJSON")
         elif change["new"] == "Reset":
             fc.reset()
         elif change["new"] == "Close":
