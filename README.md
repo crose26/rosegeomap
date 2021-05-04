@@ -12,8 +12,13 @@
     
 
 ## Features
+-   An interactive mapping software for plotting data points over time.
+-   This package was specifically designed with utilities in mind, and future contributions will be made to further the packages capabilities.
 
--   TODO
+## Instalation
+PyPI: https://pypi.org/project/rosegeomap/
+Conda-Forge: https://anaconda.org/conda-forge/rosegeomap
+GitHub: https://github.com/crose26/rosegeomap
 
 ## Credits
 

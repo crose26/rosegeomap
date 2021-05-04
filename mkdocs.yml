@@ -48,6 +48,7 @@ nav:
           - rosegeomap module: rosegeomap.md
           - common module: common.md
           - utils module: utils.md
+          - toolbar module: toolbar.py
     - Notebooks:
         - Shapefile Demo: notebooks/Shapefile_Demo.ipynb
         - Folium_Intro: notebooks/folium_intro.ipynb
