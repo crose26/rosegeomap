@@ -2,10 +2,10 @@
 import os
 import ee
 import ipyleaflet
-from ipyleaflet import FullScreenControl, LayersControl, DrawControl, MeasureControl, ScaleControl, TileLayer, Marker
+from ipyleaflet import FullScreenControl, LayersControl, DrawControl, MeasureControl, ScaleControl, TileLayer, Marker, basemaps
 from .utils import random_string
 from .common import ee_initialize, tool_template
-from .toolbar import main_toolbar
+from .toolbar import main_toolbar, side_toolbar
 
 class Map(ipyleaflet.Map):
     """This Map class inherits the ipyleaflet Map class.
@@ -18,6 +18,9 @@ class Map(ipyleaflet.Map):
 
         if "center" not in kwargs:
             kwargs["center"] = [40, -100]
+        
+        if "basemap" not in kwargs:
+                kwargs["basemap"] = basemaps.CartoDB.Positron
 
         if "zoom" not in kwargs:
             kwargs["zoom"] = 4
@@ -39,6 +42,7 @@ class Map(ipyleaflet.Map):
         self.add_control(ScaleControl(position="bottomleft"))
 
         main_toolbar(self)
+        side_toolbar(self)
 
         if "google_map" not in kwargs:
             layer = TileLayer(
