@@ -1,6 +1,6 @@
 import os
 import ipywidgets as widgets
-from ipyleaflet import WidgetControl, Marker
+from ipyleaflet import WidgetControl, Marker, basemaps, Map
 from ipyfilechooser import FileChooser
 from IPython.display import display
 import pandas as pd
@@ -141,3 +141,38 @@ def main_toolbar(m):
         for j in range(cols):
             tool = grid[i, j]
             tool.on_click(tool_click)
+
+def side_toolbar(m):
+    toolbar_button = widgets.ToggleButton(
+        value=False,
+        tooltip="Toolbar",
+        icon="times",
+        button_style="primary",
+        layout=widgets.Layout(height="28px", width="28px"),
+)    
+    dropdown = widgets.Dropdown(options=['Positron', 'DarkMatter', 'WorldStreetMap', 'DeLorme', 
+                                                'WorldTopoMap', 'WorldImagery', 'NatGeoWorldMap', 'HikeBike', 
+                                                'HyddaFull', 'Night', 'ModisTerra', 'Mapnik', 'HOT', 'OpenTopoMap', 
+                                                'Toner', 'Watercolor'],
+                                       value='Positron', 
+                                       description='map types:')
+
+    toolbar = widgets.HBox([toolbar_button])
+    toolbar
+
+    def toolbar_click(change):
+        if change["new"]:
+            toolbar.children = [toolbar_button,dropdown]
+        else:
+            toolbar.children = [toolbar_button]
+    toolbar_button.observe(toolbar_click, "value")
+
+    toolbar_ctrl = WidgetControl(widget=toolbar, position="bottomleft")
+    m.add_control(toolbar_ctrl)
+
+    def toggle_maps(map):
+        if map == 'Positron': basemaps.CartoDB.Positron
+        if map == 'DarkMatter': basemaps.CartoDB.DarkMatter
+        if map == 'WorldStreetMap': basemaps.Esri.WorldStreetMap
+
+    widgets.interact(toggle_maps,map=dropdown)
